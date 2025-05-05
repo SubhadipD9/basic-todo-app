@@ -25,5 +25,21 @@ form.addEventListener("submit", async (e) => {
     }
     form.style.display = "none";
     document.querySelector(".result-div").style.display = "block";
-  } catch (e) {}
+  } catch (e) {
+    if (error.response) {
+      if (error.response.status === 409) {
+        errorSection.innerHTML = "User already exist";
+      } else if (error.response.status === 400) {
+        errorSection.innerHTML = "Empty input fields";
+      } else {
+        errorSection.innerHTML = "Server error";
+      }
+      document.querySelector("#username").value = "";
+      document.querySelector("#password").value = "";
+    } else {
+      alert("Some error happen" + error.message);
+      document.querySelector("#username").value = "";
+      document.querySelector("#password").value = "";
+    }
+  }
 });

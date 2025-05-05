@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+    <div class="status-bar">
+        <div class="left">
+            <p class="status"></p>
+        </div>
+        <div class="right">
+            <a href="" class="logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form">
+            <form class="input-box">
+                <input type="text" placeholder="Enter Todo" class="todo-input">
+                <input type="submit" value="ADD" class="add-todo">
+            </form>
+        </div>
+        <div class="todo-container"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
