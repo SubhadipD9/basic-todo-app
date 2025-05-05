@@ -2,8 +2,10 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 function auth(req, res, next) {
-  const token = req.header.token;
+  const token = req.headers.token;
 
   if (token) {
     jwt.verify(token, JWT_SECRET, (err, data) => {

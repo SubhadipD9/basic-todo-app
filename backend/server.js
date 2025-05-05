@@ -3,18 +3,17 @@ dotenv.config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
-const auth = require("./auth");
 const { v4: uuidv4 } = require("uuid");
 
 const users = [];
 let todos = [];
+const JWT_SECRET = process.env.JWT_SECRET;
+const PORT = process.env.PORT;
+
+const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-const JWT_SECRET = process.env.JWT_SECRET;
-
-const app = express();
 
 app.post("/signup", (req, res) => {
   const { username, password } = req.body;
@@ -74,7 +73,26 @@ app.post("/signin", (req, res) => {
   }
 });
 
-app.use(auth());
+app.use(function auth(req, res, next) {
+  const token = req.headers.token;
+
+  if (token) {
+    jwt.verify(token, JWT_SECRET, (err, data) => {
+      if (err) {
+        res.status(401).send({
+          message: "Unauthorize",
+        });
+      } else {
+        req.username = data.username;
+        next();
+      }
+    });
+  } else {
+    res.status(403).send({
+      message: "Unauthorize",
+    });
+  }
+});
 
 app.get("/todos", (req, res) => {
   res.status(201).json(todos);
@@ -102,3 +120,75 @@ app.post("/add-todo", (req, res) => {
     id: newTodo.id,
   });
 });
+
+app.put("/update-todo", (req, res) => {
+  const { todo, updated_todo } = req.body;
+
+  if (!updated_todo) {
+    res.status(400).json({
+      messgae: "Empty Update Todo Field",
+    });
+    return;
+  }
+
+  const todoForUpdate = todos.find((t) => t.todo === todo);
+  todoForUpdate.todo = updated_todo;
+
+  res.status(200).json({
+    message: "Todo updated successfully",
+    todos,
+  });
+});
+
+app.delete("/delete-todo", (req, res) => {
+  const { id } = req.body;
+
+  const index = todos.findIndex((t) => t.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      message: "Todo not found",
+    });
+  }
+
+  todos.splice(index, 1);
+
+  res.status(200).json({
+    message: "Todo deleted successfully",
+  });
+});
+
+app.post("/done", (req, res) => {
+  const { id } = req.body;
+
+  const todo = todos.find((t) => t.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      message: "Todo not found",
+    });
+  }
+  todo.completed = true;
+
+  res.status(200).json({
+    message: "Todo completed",
+  });
+});
+
+app.get("/me", (req, res) => {
+  res.status(201).json({
+    username: req.username,
+  });
+});
+
+function startServer(PORT) {
+  if (!PORT) {
+    console.log("Port is not define");
+  } else {
+    app.listen(PORT, () =>
+      console.log(`Server is started at http://localhost:${PORT}`)
+    );
+  }
+}
+
+startServer(PORT);
