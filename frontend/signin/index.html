@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signin</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <form class="signin-form">
+            <h2>Signin</h2>
+            <div class="input-section">
+                <label for="username">username</label>
+                <input type="text" id="username" placeholder="tom03">
+            </div>
+            <div class="input-section">
+                <label for="password">password</label>
+                <input type="password" id="password">
+            </div>
+            <button class="submit-button" type="submit">Signin</button>
+            <p class="error-message"></p>
+        </form>
+
+    </div>
+
+    <div class="result-div">
+        <p>You Have Signed In successfully. Click the Todos button to navigate to the todos app and Create and organize
+            your todos.</p>
+        <a href="../todos/todos.html" class="todos-btn">Todos</a>
+    </div>
+    <script src="signin.js"></script>
+</body>
+
+</html>
