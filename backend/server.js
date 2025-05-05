@@ -56,7 +56,7 @@ app.post("/signin", (req, res) => {
   );
 
   if (!user || !registeredUser) {
-    return res.status(403).json({
+    return res.status(401).json({
       message: "You are not signed up or wrong credentials",
     });
   }
