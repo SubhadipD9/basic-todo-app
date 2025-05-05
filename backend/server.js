@@ -4,6 +4,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const auth = require("./auth");
+const { v4: uuidv4 } = require("uuid");
 
 const users = [];
 let todos = [];
@@ -75,5 +76,29 @@ app.post("/signin", (req, res) => {
 
 app.use(auth());
 
-app.post("/todos", (req, res) => {});
-app.post("/add-todo", (req, res) => {});
+app.get("/todos", (req, res) => {
+  res.status(201).json(todos);
+});
+
+app.post("/add-todo", (req, res) => {
+  const { todo } = req.body;
+
+  if (!todo) {
+    return res.status(400).json({
+      message: "todo field is empty",
+    });
+  }
+
+  todos.push(
+    (newTodo = {
+      todo: todo,
+      completed: false,
+      id: uuidv4,
+    })
+  );
+
+  res.status(201).json({
+    message: "Todo created successfully",
+    id: newTodo.id,
+  });
+});
