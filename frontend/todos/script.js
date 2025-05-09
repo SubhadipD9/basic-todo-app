@@ -37,14 +37,17 @@ async function displayTodo() {
         checkBox.checked = true;
         checkBox.disabled = true;
         deleteBtn.disabled = true;
+        editBtn.disabled = true;
         deleteBtn.style.pointerEvents = "none";
         deleteBtn.style.backgroundColor = "grey";
         checkBox.style.pointerEvents = "none";
         todolist.style.backgroundColor = "green";
+        editBtn.style.backgroundColor = "grey";
       }
 
       todolist.appendChild(checkBox);
       todolist.appendChild(todoText);
+      todolist.appendChild(editBtn);
       todolist.appendChild(deleteBtn);
       todoDisplay.appendChild(todolist);
     });
@@ -94,6 +97,39 @@ async function deletetodo(id) {
   }
 }
 
+async function editTodo(id, oldTodo) {
+  const newTodo = prompt("Update your todo", oldTodo);
+
+  if (!newTodo || newTodo.trim() === "") {
+    alert("Edit cancelled or empty.");
+    return;
+  }
+
+  try {
+    const response = await axios.post(
+      "http://localhost:3000/update-todo",
+      {
+        id: id,
+        updated_todo: newTodo,
+      },
+      {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      alert(response.data.message);
+      displayTodo();
+    }
+  } catch (err) {
+    if (err.response.status === 400) {
+      alert("Empty Update Todo Field");
+    }
+  }
+}
+
 const form = document.querySelector(".input-box");
 
 form.addEventListener("submit", async (e) => {
@@ -133,24 +169,6 @@ form.addEventListener("submit", async (e) => {
   todoInput.value = "";
 });
 
-async function editTodo(id, oldTodo) {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    alert("User not signed in");
-    return;
-  }
-
-  const newTodo = prompt("Edit your todo")
-  
-  try {
-    const response = await axios.get("http://localhost:3000/me", {
-      headers: {
-        token: token,
-      },
-    });
-  }
-}
-
 async function displayProfile() {
   const token = localStorage.getItem("token");
   if (!token) {
@@ -187,7 +205,7 @@ document.querySelector(".logout-btn").addEventListener("click", (event) => {
   event.preventDefault();
   localStorage.removeItem("token");
   alert("User logged out successfully");
-  window.location.href = "../home/index.html";
+  window.location.href = "../index.html";
 });
 
 window.onload = displayProfile();

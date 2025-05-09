@@ -121,27 +121,33 @@ app.post("/add-todo", (req, res) => {
   });
 });
 
-app.put("/update-todo", (req, res) => {
-  const { todo, updated_todo } = req.body;
+app.post("/update-todo", (req, res) => {
+  const { id, updated_todo } = req.body;
 
   if (!updated_todo) {
     res.status(400).json({
-      messgae: "Empty Update Todo Field",
+      message: "Empty Update Todo Field",
     });
     return;
   }
 
-  const todoForUpdate = todos.find((t) => t.todo === todo);
+  const todoForUpdate = todos.find((t) => t.id === id);
+
+  if (!todoForUpdate) {
+    return res.status(404).json({
+      message: "Todo item not found.",
+    });
+  }
+
   todoForUpdate.todo = updated_todo;
 
   res.status(200).json({
     message: "Todo updated successfully",
-    todos,
   });
 });
 
 app.delete("/delete-todo/:id", (req, res) => {
-  const { id } = req.params; // Get the ID from the URL params
+  const { id } = req.params;
   const index = todos.findIndex((t) => t.id === id);
 
   if (index === -1) {
