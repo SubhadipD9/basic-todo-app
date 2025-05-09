@@ -1,0 +1,122 @@
+/* Dark Theme for Todos App */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .status-bar {
+    background-color: #1f1f1f;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    margin-bottom: 30px;
+  }
+  
+  .status-bar .status {
+    font-weight: bold;
+    color: #90caf9;
+  }
+
+  .delete {
+    color: #ffffff;
+    background-color: #e53935;
+    padding: 8px 9px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    cursor: pointer;
+
+  }
+  
+  .logout-btn {
+    color: #ffffff;
+    background-color: #e53935;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c62828;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  
+  .input-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+  
+  .todo-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: white;
+  }
+  
+  .todo-input:focus {
+    border-color: #64b5f6;
+    outline: none;
+  }
+  
+  .add-todo {
+    padding: 12px 20px;
+    border: none;
+    background-color: #43a047;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-todo:hover {
+    background-color: #2e7d32;
+  }
+  
+  .todo-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .todo-item {
+    background-color: #2a2a2a;
+    padding: 12px;
+    border-radius: 5px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #444;
+  }
+  
+  .todo-item.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+  }
+  

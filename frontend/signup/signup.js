@@ -7,28 +7,34 @@ form.addEventListener("submit", async (e) => {
   const password = document.querySelector("#password").value;
   const errorSection = document.querySelector(".error-message");
 
+  if (username.length > 10) {
+    errorSection.innerHTML = "Username cannot be greater than 10";
+    return;
+  }
+
+  if (password.length < 6) {
+    errorSection.innerHTML = "Password minimum langth 6";
+    return;
+  }
+
   try {
-    const response = axios.post("http://localhost:3000/signup", {
+    const response = await axios.post("http://localhost:3000/signup", {
       username: username,
       password: password,
     });
-
-    if (username.length > 10 || password.length <= 6) {
-      errorSection.innerHTML = "username limit 10 and password minimum 6";
-      return;
-    }
-
     const { data, status } = response;
 
     if (status === 201) {
       alert(data.message);
     }
     form.style.display = "none";
+    document.querySelector(".container").style.display = "none";
     document.querySelector(".result-div").style.display = "block";
-  } catch (e) {
+  } catch (error) {
     if (error.response) {
       if (error.response.status === 409) {
         errorSection.innerHTML = "User already exist";
+        // alert("User already exist");
       } else if (error.response.status === 400) {
         errorSection.innerHTML = "Empty input fields";
       } else {

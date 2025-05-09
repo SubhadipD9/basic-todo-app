@@ -15,10 +15,8 @@ todoBtn.addEventListener("click", async (e) => {
       window.location.href = "../todos/index.html";
     }
   } catch (e) {
-    if (e.response) {
-      if (error.response.status === 403) {
-        alert("User is not signed in.");
-      }
+    if (e.response.status === 403) {
+      alert("User not loged in");
     }
   }
 });

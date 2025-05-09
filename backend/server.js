@@ -111,7 +111,7 @@ app.post("/add-todo", (req, res) => {
     (newTodo = {
       todo: todo,
       completed: false,
-      id: uuidv4,
+      id: uuidv4(),
     })
   );
 
@@ -140,9 +140,8 @@ app.put("/update-todo", (req, res) => {
   });
 });
 
-app.delete("/delete-todo", (req, res) => {
-  const { id } = req.body;
-
+app.delete("/delete-todo/:id", (req, res) => {
+  const { id } = req.params; // Get the ID from the URL params
   const index = todos.findIndex((t) => t.id === id);
 
   if (index === -1) {
@@ -163,7 +162,7 @@ app.post("/done", (req, res) => {
 
   const todo = todos.find((t) => t.id === id);
 
-  if (index === -1) {
+  if (!todo) {
     return res.status(404).json({
       message: "Todo not found",
     });
